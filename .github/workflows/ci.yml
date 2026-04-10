@@ -16,6 +16,9 @@ jobs:
       skip_lint: ${{ steps.check.outputs.skip_lint }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          filter: blob:none
       - uses: pnpm/action-setup@v5
       - run: pnpm i
       - id: check
