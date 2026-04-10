@@ -12,19 +12,35 @@ jobs:
   gate:
     runs-on: ubuntu-latest
     outputs:
-      build: ${{ steps.check.outputs.build }}
-      lint: ${{ steps.check.outputs.lint }}
+      skip_build: ${{ steps.check.outputs.skip_build }}
+      skip_lint: ${{ steps.check.outputs.skip_lint }}
     steps:
       - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v5
+      - run: pnpm i
       - id: check
         run: |
-          echo "build=skip" >> "$GITHUB_OUTPUT"
-          echo "lint=run" >> "$GITHUB_OUTPUT"
+          # List of CI/CD tasks to check. Maps to output as 'skip_<task>'
+          tasks=(
+            build
+            lint
+          )
+
+          check_task() {
+            if pnpm turbo query affected --tasks "$1" --exit-code &>/dev/null; then
+              echo "skip_$1=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "skip_$1=false" >> "$GITHUB_OUTPUT"
+            fi
+          }
+
+          for task in "${tasks[@]}"; do
+            check_task "$task"
+          done
 
   build:
     needs: gate
-    if: needs.gate.outputs.build == 'run'
+    if: needs.gate.outputs.skip_build != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -34,7 +50,7 @@ jobs:
 
   lint:
     needs: gate
-    if: needs.gate.outputs.lint == 'run'
+    if: needs.gate.outputs.skip_lint != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
