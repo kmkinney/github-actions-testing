@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-mkdir -p ../dist
-cat input.json ../dist/output.json
+echo "Building..."
+root=$(git rev-parse --show-toplevel)
+mkdir -p "$root/dist"
+cat "$root/src/input.json" >"$root/dist/output.json"
