@@ -4,6 +4,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
 jobs:
   gate:
     runs-on: ubuntu-latest
