@@ -1,0 +1,10 @@
+{
+  "name": "@kmkinney/github-actions-testing",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo test completed",
+    "lint": "echo lint completed",
+    "build: ""
+  },
+  "packageManager": "pnpm@10.33.0"
+}
