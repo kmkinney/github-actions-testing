@@ -19,7 +19,7 @@ jobs:
           # Your custom logic here
           echo "should_run=false" >> "$GITHUB_OUTPUT"
 
-  build:
+  build-new-name:
     needs: gate
     # No runner is allocated when this evaluates to false
     if: needs.gate.outputs.should_run == 'true'
