@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  gate:
+    # This is the only runner that always starts — keep it minimal
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: . # or just the files you need
+      - id: check
+        run: |
+          # Your custom logic here
+          echo "should_run=false" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: gate
+    # No runner is allocated when this evaluates to false
+    if: needs.gate.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "doing real work..."
