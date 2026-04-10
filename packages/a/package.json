@@ -1,0 +1,7 @@
+{
+  "name": "@kmkinney/a",
+  "scripts": {
+    "lint": "echo lint completed",
+    "build": "cat ./input.json >output.json"
+  }
+}

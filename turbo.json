@@ -3,14 +3,11 @@
   "tasks": {
     "build": {
       "inputs": [
-        "./src/input.json"
+        "input.json"
       ],
       "outputs": [
-        "dist/**",
+        "output.json",
       ]
-    },
-    "test": {
-      "outputs": []
     },
     "lint": {
       "outputs": []
