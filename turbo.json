@@ -9,8 +9,6 @@
         "output.json",
       ]
     },
-    "lint": {
-      "outputs": []
-    },
+    "lint": {},
   }
 }
