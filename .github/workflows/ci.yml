@@ -7,8 +7,6 @@ on:
 env:
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
-  TURBO_SCM_BASE: "origin/main"
-  TURBO_SCM_HEAD: ${{ github.event.pull_request.head.sha }}
 
 jobs:
   gate:
@@ -34,6 +32,8 @@ jobs:
           check_task() {
             if pnpm turbo query affected \
               --tasks "$1" \
+              --base "origin/main" \
+              --head "${{ github.event.pull_request.head.sha }}" \
               --exit-code \
               2>/dev/null; then
               echo "skip_$1=true" >> "$GITHUB_OUTPUT"
